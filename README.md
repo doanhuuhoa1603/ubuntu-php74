@@ -33,7 +33,10 @@
   DB_USERNAME="db_user"
   DB_PASSWORD="db_password"
   DB_ROOT_PASSWORD="root_password"
-  DB_ROOT_HOST="localhost"
+  DB_ROOT_HOST="localhost" # DB Root Host (Set your Server IP when using Remote Access)
+  FORWARD_DB_PORT=3306 # DB Port
+  FORWARD_PHPMYADMIN_PORT=8888 # PhpMyAdmin Port
+  FORWARD_REDIS_PORT=6379 # Redis Port
   ```
 
 2. Copy your code
