@@ -22,12 +22,12 @@ services:
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
-            MYSQL_ROOT_HOST: '${DB_ROOT_HOST:-"127.0.0.1"}:"127.0.0.1"'
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+            MARIADB_ROOT_HOST: '${DB_ROOT_HOST:-"127.0.0.1"}:"127.0.0.1"'
+            MARIADB_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MARIADB_DATABASE: '${DB_DATABASE}'
+            MARIADB_USER: '${DB_USERNAME}'
+            MARIADB_PASSWORD: '${DB_PASSWORD}'
+            MARIADB_ALLOW_EMPTY_PASSWORD: 'no'
         volumes:
             - 'hpd_mariadb:/var/lib/mysql'
         networks:
