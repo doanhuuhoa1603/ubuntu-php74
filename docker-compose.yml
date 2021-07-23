@@ -1,0 +1,85 @@
+version: '3'
+services:
+    web:
+        container_name: hpd_web
+        build: .
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./nginx:/etc/nginx/conf.d
+            - ./sites:/var/www
+        networks:
+            - hpd
+        restart: always
+        depends_on: 
+            - mariadb
+            - redis
+            - memcached
+    mariadb:
+        container_name: hpd_mariadb
+        image: 'mariadb:10'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+        volumes:
+            - 'hpd_mariadb:/var/lib/mysql'
+        networks:
+            - hpd
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            retries: 3
+            timeout: 5s
+        restart: always
+    phpmyadmin:
+        container_name: hpd_phpmyadmin
+        image: phpmyadmin:apache
+        restart: always
+        ports:
+            - '${FORWARD_PHPMYADMIN_PORT:-8888}:80'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            PMA_HOST: mariadb
+            UPLOAD_LIMIT: 128M
+        depends_on:
+            - mariadb
+        networks:
+            - hpd
+    redis:
+        container_name: hpd_redis
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'hpd_redis:/data'
+        networks:
+            - hpd
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            retries: 3
+            timeout: 5s
+        restart: always
+    memcached:
+        container_name: hpd_memcached
+        image: 'memcached:alpine'
+        ports:
+            - '11211:11211'
+        networks:
+            - hpd
+        restart: always
+networks:
+    hpd:
+        driver: bridge
+volumes:
+    hpd_redis:
+        driver: local
+    hpd_mariadb:
+        driver: local

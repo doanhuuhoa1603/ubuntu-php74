@@ -1,0 +1,7 @@
+# exclude everything inside nginx & sites folder but keep the folders themselves
+nginx/*
+!nginx/.gitignore
+sites/*
+!sites/.gitignore
+
+.env
