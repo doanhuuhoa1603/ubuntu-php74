@@ -23,7 +23,7 @@ services:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
             MARIADB_ROOT_HOST: '${DB_ROOT_HOST:-"127.0.0.1"}:"127.0.0.1"'
-            MARIADB_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MARIADB_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
             MARIADB_DATABASE: '${DB_DATABASE}'
             MARIADB_USER: '${DB_USERNAME}'
             MARIADB_PASSWORD: '${DB_PASSWORD}'
