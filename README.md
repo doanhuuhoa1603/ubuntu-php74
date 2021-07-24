@@ -113,5 +113,13 @@
   ```
   docker exec -it hpd_web bash
   ```
+  ### MySQL Backup
+
+  If you want to automatically backup your DB and upload it to AWS S3/SMB/Local, you may want to use this Image.
+
+  [Github Source Code](https://github.com/databacker/mysql-backup)
+
+  [Docker Image](https://hub.docker.com/r/databack/mysql-backup)
+  
 ## Author <a name = "author"></a>
 <b>Doan Huu Hoa<b> (<doanhuuhoa1603@gmail.com>)
