@@ -32,6 +32,7 @@ RUN apt -y install wget \
     libssl-dev \
     libssh2-1 \
     supervisor \
+    cron \
     gcc make libssh2-1-dev \
     php php-cli php-fpm php-json php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath
 
@@ -44,6 +45,11 @@ RUN echo "exit 0" > /usr/sbin/policy-rc.d
 # Remove Nginx defaut config
 RUN unlink /etc/nginx/sites-enabled/default
 
+# COPY cron file
+COPY cron /etc/cron.d/cron
+RUN chmod 0644 /etc/cron.d/cron
+RUN crontab /etc/cron.d/cron
+
 # Start nginx
 # CMD ["nginx", "-g", "daemon off;"]
-CMD /etc/init.d/php7.4-fpm restart && nginx -g "daemon off;"
+CMD /etc/init.d/php7.4-fpm restart && nginx -g "daemon off;" && cron
